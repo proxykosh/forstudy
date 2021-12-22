@@ -191,7 +191,7 @@ class Ui_MainWindow(object):
         conn.close()
 
 
-
+print("sad")
 
 
 if __name__ == "__main__":
