@@ -1,5 +1,4 @@
 import string
-
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
@@ -8,7 +7,7 @@ import gspread_formatting as gf
 
 scope = ['https://www.googleapis.com/auth/spreadsheets',
          'https://www.googleapis.com/auth/drive']
-creds = Credentials.from_service_account_file("client_secret.json", scopes=scope)  # файл в папке на гите
+creds = Credentials.from_service_account_file("client_secret.json", scopes=scope)  # файл в папке
 client = gspread.authorize(creds)
 
 def add_new_list_and_authorization():
@@ -22,8 +21,9 @@ def add_new_list_and_authorization():
     sh = client.create('hmm')
     sh.share('muhindimakzn@gmail.com', perm_type='user', role='writer')
 
-google_sh = client.open_by_url(
-    "https://docs.google.com/spreadsheets/d/1SJr8wRfYufQKFIk3pKyqATvAR86Mu6yBcT7CzZREq5M/edit#gid=0")  # ссылка на таблицу
+google_sh = client.open("hmm")
+#google_sh = client.open_by_url(
+    #"https://docs.google.com/spreadsheets/d/1SJr8wRfYufQKFIk3pKyqATvAR86Mu6yBcT7CzZREq5M/edit#gid=0")  # ссылка на таблицу
 worksheet = google_sh.get_worksheet(0)  # получение первого листа гугл листа
 worksheet.clear()  # очистка таблицы
 
@@ -77,7 +77,8 @@ gd.set_with_dataframe(worksheet, df)  # датафрейм в гугл лист
 fmt = gf.CellFormat(
     backgroundColor=gf.color(1, 1, 1),
     textFormat=gf.textFormat(bold=True, foregroundColor=gf.color(0, 0, 0)),
-    horizontalAlignment='CENTER')
+    horizontalAlignment='CENTER',
+    verticalAlignment='MIDDLE')
 gf.format_cell_range(worksheet, '1', fmt)
 
 """
@@ -86,7 +87,9 @@ gf.format_cell_range(worksheet, '1', fmt)
 fmt = gf.CellFormat(
     backgroundColor=gf.color(1, 1, 1),
     textFormat=gf.textFormat(bold=True, foregroundColor=gf.color(0, 0, 0)),
-    horizontalAlignment='LEFT')
+    horizontalAlignment='LEFT',
+    verticalAlignment='MIDDLE'
+    )
 gf.format_cell_range(worksheet, 'A2:' + get_last_column(worksheet.col_count - 2) + str(int(last_row_index) - 1), fmt)
 
 """
@@ -95,7 +98,8 @@ gf.format_cell_range(worksheet, 'A2:' + get_last_column(worksheet.col_count - 2)
 fmt = gf.CellFormat(
     backgroundColor=gf.color(0.66, 0.83, 0.627),
     textFormat=gf.textFormat(bold=True, foregroundColor=gf.color(0, 0, 0)),
-    horizontalAlignment='CENTER')
+    horizontalAlignment='CENTER',
+    verticalAlignment='MIDDLE')
 gf.format_cell_range(worksheet, last_row_index, fmt)
 
 """
@@ -103,8 +107,10 @@ gf.format_cell_range(worksheet, last_row_index, fmt)
 """
 fmt = gf.CellFormat(
     backgroundColor=gf.color(1, 1, 1),
-    textFormat=gf.textFormat(bold=True, foregroundColor=gf.color(0, 0.5, 0)),
-    horizontalAlignment='CENTER')
+    textFormat=gf.textFormat(bold=True, foregroundColor=gf.color(0.07, 0.478, 0.04)),
+    horizontalAlignment='CENTER',
+    verticalAlignment='MIDDLE'
+)
 gf.format_cell_range(worksheet, "C2:" + get_last_column() + str(int(last_row_index) - 1), fmt)
 """
 форматирование столбца с суммой
@@ -112,13 +118,23 @@ gf.format_cell_range(worksheet, "C2:" + get_last_column() + str(int(last_row_ind
 fmt = gf.CellFormat(
     backgroundColor=gf.color(0.66, 0.83, 0.627),
     textFormat=gf.textFormat(bold=True, foregroundColor=gf.color(0, 0, 0)),
-    horizontalAlignment='CENTER')
+    horizontalAlignment='CENTER',
+    verticalAlignment='MIDDLE')
 gf.format_cell_range(worksheet, get_last_column(), fmt)
-worksheet.resize(rows=int(last_row_index))  # удаление лишних строк
+worksheet.resize(rows=int(last_row_index), cols=int(list(df.shape)[1]))  # удаление лишних строк
+
 b = gf.Border("DOTTED", gf.Color(0.66, 0.83, 0.627))
 fmt = gf.CellFormat(borders=gf.borders(bottom=gf.border('SOLID'), left=gf.border('SOLID'), right=gf.border('SOLID'),
                                        top=gf.border('SOLID')))
 gf.format_cell_range(worksheet, '[', fmt)
 # неработающие команды, не знаю почему
-worksheet.format("A1:"+ get_last_column() + str(int(last_row_index)), {"wrapStrategy": "WRAP"})
-worksheet.columns_auto_resize(1, worksheet.col_count + 1)
+worksheet.format("1", {"wrapStrategy": "WRAP"})
+
+gf.set_column_width(worksheet, 'A:' + get_last_column(), 200)
+worksheet.columns_auto_resize(0, worksheet.col_count)
+#for i in range(worksheet.col_count):
+
+
+
+
+
