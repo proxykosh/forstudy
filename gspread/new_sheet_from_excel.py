@@ -82,16 +82,7 @@ fmt = gf.CellFormat(
     verticalAlignment='MIDDLE')
 gf.format_cell_range(worksheet, '1', fmt)
 
-"""
-форматирование 1 и 2 столбцов
-"""
-fmt = gf.CellFormat(
-    backgroundColor=gf.color(1, 1, 1),
-    textFormat=gf.textFormat(bold=True, foregroundColor=gf.color(0, 0, 0)),
-    horizontalAlignment='LEFT',
-    verticalAlignment='MIDDLE'
-    )
-gf.format_cell_range(worksheet, 'A1:' + get_last_column(worksheet.col_count - 2) + str(int(last_row_index) - 1), fmt)
+
 
 """
 форматирование строки подсчета суммы (последней строки)
@@ -124,13 +115,22 @@ fmt = gf.CellFormat(
 gf.format_cell_range(worksheet, get_last_column(), fmt)
 worksheet.resize(rows=int(last_row_index), cols=int(list(df.shape)[1]))  # удаление лишних строк
 
+"""
+форматирование 1 и 2 столбцов
+"""
+fmt = gf.CellFormat(
+    backgroundColor=gf.color(1, 1, 1),
+    textFormat=gf.textFormat(bold=True, foregroundColor=gf.color(0, 0, 0)),
+    horizontalAlignment='LEFT',
+    verticalAlignment='MIDDLE'
+    )
+gf.format_cell_range(worksheet, 'A1:' + get_last_column(worksheet.col_count - 2) + str(int(last_row_index) - 1), fmt)
+
 b = gf.Border("DOTTED", gf.Color(0.66, 0.83, 0.627))
 fmt = gf.CellFormat(borders=gf.borders(bottom=gf.border('SOLID'), left=gf.border('SOLID'), right=gf.border('SOLID'),
                                        top=gf.border('SOLID')))
-gf.format_cell_range(worksheet, '[', fmt)
-# неработающие команды, не знаю почему
+gf.format_cell_range(worksheet, '[]', fmt)
 worksheet.format("A1:" + get_last_column() + last_row_index, {"wrapStrategy": "WRAP"})
-
 gf.set_column_width(worksheet, 'A:' + get_last_column(), 170)
 worksheet.columns_auto_resize(0, worksheet.col_count)
 
