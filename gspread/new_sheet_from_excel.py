@@ -21,9 +21,10 @@ def add_new_list_and_authorization():
     sh = client.create('hmm')
     sh.share('muhindimakzn@gmail.com', perm_type='user', role='writer')
 
-google_sh = client.open("hmm")
-#google_sh = client.open_by_url(
-    #"https://docs.google.com/spreadsheets/d/1SJr8wRfYufQKFIk3pKyqATvAR86Mu6yBcT7CzZREq5M/edit#gid=0")  # ссылка на таблицу
+# ссылка на таблицу с открытым доступом для сервисного аккаунта
+# можно открыть доступ для сервисного аккаунта для папка на гугл диске и тогда он по умолчанию будет иметь права
+google_sh = client.open_by_url(
+    "https://docs.google.com/spreadsheets/d/1UmX7mQMwpit0vSlT8XdmRq5Qx7OOIXWPwleQtx5Q3ho/edit#gid=0")
 worksheet = google_sh.get_worksheet(0)  # получение первого листа гугл листа
 worksheet.clear()  # очистка таблицы
 
@@ -90,7 +91,7 @@ fmt = gf.CellFormat(
     horizontalAlignment='LEFT',
     verticalAlignment='MIDDLE'
     )
-gf.format_cell_range(worksheet, 'A2:' + get_last_column(worksheet.col_count - 2) + str(int(last_row_index) - 1), fmt)
+gf.format_cell_range(worksheet, 'A1:' + get_last_column(worksheet.col_count - 2) + str(int(last_row_index) - 1), fmt)
 
 """
 форматирование строки подсчета суммы (последней строки)
@@ -128,11 +129,11 @@ fmt = gf.CellFormat(borders=gf.borders(bottom=gf.border('SOLID'), left=gf.border
                                        top=gf.border('SOLID')))
 gf.format_cell_range(worksheet, '[', fmt)
 # неработающие команды, не знаю почему
-worksheet.format("1", {"wrapStrategy": "WRAP"})
+worksheet.format("A1:" + get_last_column() + last_row_index, {"wrapStrategy": "WRAP"})
 
-gf.set_column_width(worksheet, 'A:' + get_last_column(), 200)
+gf.set_column_width(worksheet, 'A:' + get_last_column(), 170)
 worksheet.columns_auto_resize(0, worksheet.col_count)
-#for i in range(worksheet.col_count):
+
 
 
 
