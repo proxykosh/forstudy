@@ -29,7 +29,7 @@ for i, val in enumerate(cell_values):  #gives us a tuple of an index and value
 worksheet.update_cells(cell_list)
 
 worksheet.delete_rows(2,80)
-worksheet.delete_columns(1, 13)
+worksheet.delete_columns(1, 10)
 
 
 

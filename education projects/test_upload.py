@@ -1,6 +1,5 @@
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
-from gspread import gspread
 
 gauth = GoogleAuth()
 # Try to load saved client credentials
@@ -18,28 +17,10 @@ else:
 gauth.SaveCredentialsFile("mycreds.txt")
 
 drive = GoogleDrive(gauth)
-fileID = False
-fileList = drive.ListFile().GetList()
-for file in fileList:
-  if(file['title'] == 'all_data.xlsx'):
-      fileID = file['id']
 
-# Initialize GoogleDriveFile instance with file id.
-if fileID:
-    file2 = drive.CreateFile({'id': fileID})
-    file2.Delete()  # Permanently delete the file.
-
-
-drive = GoogleDrive(gauth)
 textfile = drive.CreateFile()
 textfile.SetContentFile('all_data.xlsx')
 textfile.Upload()
 print (textfile)
 
-
-gc = gspread.service_account(filename='my-test-project-314413-dd942cf9cb7a.json')
-
-
-
-
-
+drive.CreateFile({'id':textfile['id']}).GetContentFile('eng-dl.txt')
